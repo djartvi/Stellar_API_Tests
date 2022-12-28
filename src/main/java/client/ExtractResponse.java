@@ -25,11 +25,4 @@ public class ExtractResponse {
                 .extract()
                 .path(key);
     }
-
-    @Step("Get int value from JSON")
-    public int getIntValueByKey(ValidatableResponse response, String key) {
-        return response
-                .extract()
-                .path(key);
-    }
 }

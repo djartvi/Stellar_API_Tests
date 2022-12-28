@@ -1,6 +1,7 @@
 package user;
 
 import client.ExtractResponse;
+
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
