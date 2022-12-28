@@ -12,17 +12,16 @@ public class ExtractResponse {
                 .statusCode();
     }
 
-    @Step("Get string value from JSON")
-    public String getStringValueByKey(ValidatableResponse response, String key) {
+    @Step("Get value from JSON")
+    public <T> T valueByKey (ValidatableResponse response, String key) {
         return response
                 .extract()
                 .path(key);
     }
 
-    @Step("Get boolean value from JSON")
-    public boolean getBooleanValueByKey(ValidatableResponse response, String key) {
+    public <T> T jsonObject(ValidatableResponse response, Class<T> object) {
         return response
                 .extract()
-                .path(key);
+                .body().as(object);
     }
 }

@@ -28,7 +28,7 @@ public class RegisterUserTest {
     public void checkRegistration() {
 
         int responseCode = extractResponse.responseCode(response);
-        Boolean responseMessage = extractResponse.getBooleanValueByKey(response, "success");
+        Boolean responseMessage = extractResponse.valueByKey(response, "success");
 
         assertEquals(200, responseCode);
         assertEquals(true, responseMessage);
@@ -41,7 +41,7 @@ public class RegisterUserTest {
         ValidatableResponse registerExistingUser = userClient.register(user);
 
         int responseCode = extractResponse.responseCode(registerExistingUser);
-        String responseMessage = extractResponse.getStringValueByKey(registerExistingUser, "message");
+        String responseMessage = extractResponse.valueByKey(registerExistingUser, "message");
 
         assertEquals(403, responseCode);
         assertEquals("User already exists", responseMessage);
@@ -49,7 +49,7 @@ public class RegisterUserTest {
 
     @After
     public void deleteUser() throws InterruptedException {
-        String token = extractResponse.getStringValueByKey(response, "accessToken");
+        String token = extractResponse.valueByKey(response, "accessToken");
         userClient.delete(token);
     }
 }

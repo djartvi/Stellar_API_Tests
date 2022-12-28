@@ -4,7 +4,7 @@ import client.ExtractResponse;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import order.serializer.IngredientsRequest;
+import ingredients.IngredientsRequest;
 import org.junit.Test;
 
 import java.util.List;

@@ -44,7 +44,7 @@ public class UpdateUserTest {
     @Before
     public void registerAndGetToken() throws InterruptedException {
         response = userClient.register(user);
-        token = extractResponse.getStringValueByKey(response, "accessToken");
+        token = extractResponse.valueByKey(response, "accessToken");
     }
 
     @Test
@@ -54,7 +54,7 @@ public class UpdateUserTest {
 
         ValidatableResponse updateUser = userClient.update(json, token);
         int responseCode = extractResponse.responseCode(updateUser);
-        Boolean responseMessage = extractResponse.getBooleanValueByKey(updateUser, "success");
+        Boolean responseMessage = extractResponse.valueByKey(updateUser, "success");
 
         assertEquals(200, responseCode);
         assertEquals(true, responseMessage);
@@ -67,7 +67,7 @@ public class UpdateUserTest {
 
         ValidatableResponse updateUser = userClient.update(json, "");
         int responseCode = extractResponse.responseCode(updateUser);
-        Boolean responseMessage = extractResponse.getBooleanValueByKey(updateUser, "success");
+        Boolean responseMessage = extractResponse.valueByKey(updateUser, "success");
 
         assertEquals(401, responseCode);
         assertEquals(false, responseMessage);

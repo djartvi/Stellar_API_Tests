@@ -1,7 +1,11 @@
 package randomizer;
 
+import client.ExtractResponse;
 import ingredients.Data;
+import ingredients.IngredientsClient;
+import ingredients.IngredientsRequest;
 import ingredients.IngredientsResponse;
+import io.restassured.response.ValidatableResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +13,7 @@ import java.util.Random;
 
 public class Randomizer {
 
-    public String getRandomId(IngredientsResponse ingredients) throws InterruptedException {
+    public static String getRandomId(IngredientsResponse ingredients) throws InterruptedException {
         List<Data> data = ingredients.getData();
         Random random = new Random();
         int randomIngredient = random.nextInt(data.size());
@@ -17,13 +21,13 @@ public class Randomizer {
         return data.get(randomIngredient).getId();
     }
 
-    public List<String> createRandomList(IngredientsResponse ingredients, int size) throws InterruptedException {
+    public static IngredientsRequest createRandomIngredientsJson(IngredientsResponse ingredients, int size) throws InterruptedException {
         List<String> randomList = new ArrayList<>();
 
         for (int i = 0; i < size; i++) {
             randomList.add(getRandomId(ingredients));
         }
 
-        return randomList;
+        return new IngredientsRequest(randomList);
     }
 }

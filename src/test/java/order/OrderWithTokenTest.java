@@ -1,9 +1,10 @@
 package order;
 
 import client.ExtractResponse;
-import order.randomizer.Randomizer;
-import order.serializer.IngredientsRequest;
-import order.serializer.IngredientsResponse;
+import ingredients.IngredientsClient;
+import ingredients.IngredientsResponse;
+import randomizer.Randomizer;
+import ingredients.IngredientsRequest;
 import user.User;
 import user.UserClient;
 
@@ -15,8 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -27,10 +26,10 @@ public class OrderWithTokenTest {
     private final boolean success;
 
     private static String token;
+    private static ValidatableResponse response;
     private static IngredientsResponse ingredientsResponse;
 
     private static final UserClient userClient = new UserClient();
-    private final Randomizer randomizer = new Randomizer();
     private final OrderClient orderClient = new OrderClient();
     private static final ExtractResponse extractResponse = new ExtractResponse();
 
@@ -54,24 +53,23 @@ public class OrderWithTokenTest {
 
     @BeforeClass
     public static void setListOfIngredients() throws InterruptedException {
-        ingredientsResponse = ingredientsClient.getIngredients();
+        response = ingredientsClient.getIngredients();
+        ingredientsResponse = extractResponse.jsonObject(response, IngredientsResponse.class);
 
         ValidatableResponse registerUser = userClient.register(User.uniqueUser());
-
-        token = extractResponse.getStringValueByKey(registerUser, "accessToken");
+        token = extractResponse.valueByKey(registerUser, "accessToken");
     }
 
     @Test
     @DisplayName("Make order with token")
     public void makeOrderWithTokenTest() throws InterruptedException {
 
-        List<String> listToSend = randomizer.createRandomList(ingredientsResponse, size);
-        IngredientsRequest ingredientsRequest = new IngredientsRequest(listToSend);
+        IngredientsRequest ingredientsRequest = Randomizer.createRandomIngredientsJson(ingredientsResponse, size);
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, token);
 
         int statusCode = extractResponse.responseCode(makeOrder);
-        Boolean responseMessage = extractResponse.getBooleanValueByKey(makeOrder, "success");
+        Boolean responseMessage = extractResponse.valueByKey(makeOrder, "success");
 
         assertEquals(expectedCode, statusCode);
         assertEquals(success, responseMessage);

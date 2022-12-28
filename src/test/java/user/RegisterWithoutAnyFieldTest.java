@@ -48,7 +48,7 @@ public class RegisterWithoutAnyFieldTest {
         ValidatableResponse response = userClient.register(user);
 
         int responseCode = extractResponse.responseCode(response);
-        String responseMessage = extractResponse.getStringValueByKey(response, "message");
+        String responseMessage = extractResponse.valueByKey(response, "message");
 
         assertEquals(403, responseCode);
         assertEquals("Email, password and name are required fields", responseMessage);

@@ -6,16 +6,18 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 
 import static org.junit.Assert.assertEquals;
 
 public class AuthorizationTest {
 
+    private String token;
     private ValidatableResponse response;
 
+    private final User user = User.uniqueUser();
     private final UserClient userClient = new UserClient();
     private final ExtractResponse extractResponse = new ExtractResponse();
-    private final User user = User.uniqueUser();
 
     @Before
     public void registerUser() throws InterruptedException {
@@ -28,9 +30,9 @@ public class AuthorizationTest {
 
         ValidatableResponse authorization = userClient.authorization(user);
         int responseCode = extractResponse.responseCode(authorization);
-        Boolean responseMessage = extractResponse.getBooleanValueByKey(response, "success");
+        Boolean responseMessage = extractResponse.valueByKey(response, "success");
 
-        String token = extractResponse.getStringValueByKey(response, "accessToken");
+        token = extractResponse.valueByKey(response, "accessToken");
         userClient.delete(token);
 
         assertEquals(200, responseCode);
@@ -41,15 +43,20 @@ public class AuthorizationTest {
     @DisplayName("Check authorization of existing user")
     public void checkRegistrationExistingUser() throws InterruptedException {
 
-        String token = extractResponse.getStringValueByKey(response, "accessToken");
+        token = extractResponse.valueByKey(response, "accessToken");
         userClient.delete(token);
 
         ValidatableResponse authorization = userClient.authorization(user);
 
         int responseCode = extractResponse.responseCode(authorization);
-        String responseMessage = extractResponse.getStringValueByKey(authorization, "message");
+        String responseMessage = extractResponse.valueByKey(authorization, "message");
 
         assertEquals(401, responseCode);
         assertEquals("email or password are incorrect", responseMessage);
+    }
+
+    @After
+    public void deleteUser() throws InterruptedException {
+        userClient.delete(token);
     }
 }
