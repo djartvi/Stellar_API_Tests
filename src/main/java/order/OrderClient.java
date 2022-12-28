@@ -3,7 +3,7 @@ package order;
 import client.RestClient;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-import order.serializer.IngredientsRequest;
+import ingredients.IngredientsRequest;
 
 public class OrderClient extends RestClient{
 
@@ -15,6 +15,13 @@ public class OrderClient extends RestClient{
                 .header("Authorization", token)
                 .body(ingredientsRequest)
                 .post(PREFIX)
+                .then();
+    }
+
+    public ValidatableResponse getOrdersOfUser(String token) throws InterruptedException{
+        return spec()
+                .header("Authorization", token)
+                .get(PREFIX)
                 .then();
     }
 }

@@ -1,7 +1,6 @@
-package order;
+package ingredients;
 
 import client.RestClient;
-import order.serializer.IngredientsResponse;
 import io.qameta.allure.Step;
 
 public class IngredientsClient extends RestClient {

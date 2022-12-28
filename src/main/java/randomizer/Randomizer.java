@@ -1,7 +1,7 @@
-package order.randomizer;
+package randomizer;
 
-import order.serializer.Data;
-import order.serializer.IngredientsResponse;
+import ingredients.Data;
+import ingredients.IngredientsResponse;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package order.serializer;
+package ingredients;
 
 public class Data {
 

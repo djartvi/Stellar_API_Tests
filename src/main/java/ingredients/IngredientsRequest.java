@@ -1,4 +1,4 @@
-package order.serializer;
+package ingredients;
 
 import java.util.ArrayList;
 import java.util.List;
