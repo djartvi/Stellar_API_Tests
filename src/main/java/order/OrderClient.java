@@ -18,6 +18,7 @@ public class OrderClient extends RestClient{
                 .then();
     }
 
+    @Step("Get orders of user")
     public ValidatableResponse getOrdersOfUser(String token) throws InterruptedException{
         return spec()
                 .header("Authorization", token)

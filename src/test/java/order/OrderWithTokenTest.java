@@ -29,10 +29,11 @@ public class OrderWithTokenTest {
     private static ValidatableResponse response;
     private static IngredientsResponse ingredientsResponse;
 
-    private static final UserClient userClient = new UserClient();
+    private final Randomizer randomizer = new Randomizer();
     private final OrderClient orderClient = new OrderClient();
-    private static final ExtractResponse extractResponse = new ExtractResponse();
 
+    private static final UserClient userClient = new UserClient();
+    private static final ExtractResponse extractResponse = new ExtractResponse();
     private static final IngredientsClient ingredientsClient = new IngredientsClient();
 
     public OrderWithTokenTest(int size, int expectedCode, boolean success) {
@@ -64,7 +65,7 @@ public class OrderWithTokenTest {
     @DisplayName("Make order with token")
     public void makeOrderWithTokenTest() throws InterruptedException {
 
-        IngredientsRequest ingredientsRequest = Randomizer.createRandomIngredientsJson(ingredientsResponse, size);
+        IngredientsRequest ingredientsRequest = randomizer.createRandomIngredientsJson(ingredientsResponse, size);
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, token);
 

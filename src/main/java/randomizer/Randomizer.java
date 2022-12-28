@@ -1,11 +1,8 @@
 package randomizer;
 
-import client.ExtractResponse;
 import ingredients.Data;
-import ingredients.IngredientsClient;
 import ingredients.IngredientsRequest;
 import ingredients.IngredientsResponse;
-import io.restassured.response.ValidatableResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +10,19 @@ import java.util.Random;
 
 public class Randomizer {
 
-    public static String getRandomId(IngredientsResponse ingredients) throws InterruptedException {
-        List<Data> data = ingredients.getData();
-        Random random = new Random();
+    private final Random random = new Random();
+    private final List<String> randomList = new ArrayList<>();
+
+    public String getRandomId(IngredientsResponse response) {
+        List<Data> data = response.getData();
         int randomIngredient = random.nextInt(data.size());
 
         return data.get(randomIngredient).getId();
     }
 
-    public static IngredientsRequest createRandomIngredientsJson(IngredientsResponse ingredients, int size) throws InterruptedException {
-        List<String> randomList = new ArrayList<>();
-
+    public IngredientsRequest createRandomIngredientsJson(IngredientsResponse response, int size) {
         for (int i = 0; i < size; i++) {
-            randomList.add(getRandomId(ingredients));
+            randomList.add(getRandomId(response));
         }
 
         return new IngredientsRequest(randomList);

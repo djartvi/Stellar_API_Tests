@@ -25,6 +25,7 @@ public class OrderTest {
     private static ValidatableResponse getIngredients;
     private static IngredientsResponse ingredientsResponse;
 
+    private final Randomizer randomizer = new Randomizer();
     private final OrderClient orderClient = new OrderClient();
     private static final ExtractResponse extractResponse = new ExtractResponse();
 
@@ -56,7 +57,7 @@ public class OrderTest {
     @DisplayName("Make order without token")
     public void makeOrderTest() throws InterruptedException {
 
-        IngredientsRequest ingredientsRequest = Randomizer.createRandomIngredientsJson(ingredientsResponse, size);
+        IngredientsRequest ingredientsRequest = randomizer.createRandomIngredientsJson(ingredientsResponse, size);
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, "");
 
