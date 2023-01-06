@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -18,6 +19,9 @@ public class RegisterWithoutAnyFieldTest {
     private final String email;
     private final String password;
     private final String name;
+
+    private ValidatableResponse response;
+    private int responseCode;
 
     private final UserClient userClient = new UserClient();
     private final ExtractResponse extractResponse = new ExtractResponse();
@@ -45,12 +49,20 @@ public class RegisterWithoutAnyFieldTest {
     public void checkRegistrationWithoutRequiredFields() throws InterruptedException {
 
         User user = new User(email, password, name);
-        ValidatableResponse response = userClient.register(user);
+        response = userClient.register(user);
 
-        int responseCode = extractResponse.responseCode(response);
+        responseCode = extractResponse.responseCode(response);
         String responseMessage = extractResponse.valueByKey(response, "message");
 
         assertEquals(403, responseCode);
         assertEquals("Email, password and name are required fields", responseMessage);
+    }
+
+    @After
+    public void deleteUser() throws InterruptedException {
+        if (responseCode == 200) {
+            String token = extractResponse.valueByKey(response, "accessToken");
+            userClient.delete(token);
+        }
     }
 }

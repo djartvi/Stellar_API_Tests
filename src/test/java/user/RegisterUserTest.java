@@ -14,9 +14,9 @@ public class RegisterUserTest {
 
     private ValidatableResponse response;
 
+    private final User user = User.uniqueUser();
     private final UserClient userClient = new UserClient();
     private final ExtractResponse extractResponse = new ExtractResponse();
-    private final User user = User.uniqueUser();
 
     @Before
     public void registerUser() throws InterruptedException {
