@@ -1,18 +1,16 @@
 package user;
 
 import com.github.javafaker.Faker;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public class User {
 
-    private final String email;
-    private final String password;
-    private final String name;
-
-    public User(String email, String password, String name) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-    }
+    private String email;
+    private String password;
+    private String name;
 
     public static User uniqueUser() {
         Faker faker = new Faker();
@@ -22,17 +20,5 @@ public class User {
         String name = faker.name().firstName();
 
         return new User(email, password, name);
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
     }
 }
