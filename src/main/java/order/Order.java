@@ -2,9 +2,9 @@ package order;
 
 public class Order {
 
-    private String _id;
+    private String id;
 
     public String getId() {
-        return _id;
+        return id;
     }
 }
