@@ -1,10 +1,11 @@
 package ingredients;
 
+import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+
+@Getter
 public class Data {
 
-    private String _id;
-
-    public String getId() {
-        return _id;
-    }
+    @SerializedName(value = "_id")
+    private String id;
 }
