@@ -4,6 +4,8 @@ import client.RestClient;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
+import java.util.Map;
+
 public class UserClient extends RestClient {
 
     private final String PREFIX = "/api/auth/";
@@ -18,8 +20,10 @@ public class UserClient extends RestClient {
 
     @Step("login")
     public ValidatableResponse authorization(User user) throws InterruptedException{
-        String json = String.format("{\"email\": \"%s\", \"password\": \"%s\"}",
-                user.getEmail(), user.getPassword());
+        Map<String, String> json = Map.of(
+                "email", user.getEmail(),
+                "password", user.getPassword()
+        );
 
         return spec()
                 .body(json)

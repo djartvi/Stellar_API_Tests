@@ -1,20 +1,10 @@
 package ordersofuser;
 
 import client.ExtractResponse;
-import ingredients.IngredientsClient;
-import ingredients.IngredientsRequest;
-import ingredients.IngredientsResponse;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import order.OrderClient;
-import order.OrderResponse;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import randomizer.Randomizer;
-import user.User;
-import user.UserClient;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

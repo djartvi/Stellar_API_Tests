@@ -22,7 +22,6 @@ public class OrderTest {
     private final int expectedCode;
     private final boolean success;
 
-    private static ValidatableResponse getIngredients;
     private static IngredientsResponse ingredientsResponse;
 
     private final Randomizer randomizer = new Randomizer();
@@ -49,7 +48,7 @@ public class OrderTest {
 
     @BeforeClass
     public static void setListOfIngredients() throws InterruptedException {
-        getIngredients = ingredientsClient.getIngredients();
+        ValidatableResponse getIngredients = ingredientsClient.getIngredients();
         ingredientsResponse = extractResponse.jsonObject(getIngredients, IngredientsResponse.class);
     }
 

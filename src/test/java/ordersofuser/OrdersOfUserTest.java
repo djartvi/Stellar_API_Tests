@@ -32,7 +32,7 @@ public class OrdersOfUserTest {
 
         ValidatableResponse response = ingredientsClient.getIngredients();
         IngredientsResponse ingredientsResponse = extractResponse.jsonObject(response, IngredientsResponse.class);
-        IngredientsRequest ingredientsRequest = randomizer.createRandomIngredientsJson(ingredientsResponse,1);
+        IngredientsRequest ingredientsRequest = randomizer.createRandomIngredientsJson(ingredientsResponse, 1);
 
         ValidatableResponse registerUser = userClient.register(User.uniqueUser());
         token = extractResponse.valueByKey(registerUser, "accessToken");
@@ -46,6 +46,8 @@ public class OrdersOfUserTest {
 
         int statusCode = extractResponse.responseCode(getUserOrders);
         String userOrderId = userOrdersResponse.getOrders().get(0).getId();
+
+        System.out.println(userOrderId);
 
         assertEquals(200, statusCode);
         assertEquals(orderId, userOrderId);
