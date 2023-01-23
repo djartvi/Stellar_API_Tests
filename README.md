@@ -15,6 +15,5 @@ JUnit 4, Rest Assured, Allure Rest Assured, Allure JUnit, GSON, Lombok, JavaFake
 ## Plugins
 AntRun Plugin, Surefire, Allure, AspectJ weaver.
 
-## Cross browser testing
-Use pom.xml to change browser (just type "chrome" or "yandex" into properties->browser).
-Then run `mvn clean test allure:serve` from project directory.
+## Generate Allure report
+Run `mvn clean test allure:serve` from project directory.
