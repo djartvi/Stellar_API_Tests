@@ -1,4 +1,4 @@
-# Diplom_2
+# Stellar_API_Tests
 
 Java 11 + Selenium tests for web app https://stellarburgers.nomoreparties.site.
 
