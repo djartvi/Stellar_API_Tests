@@ -17,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class UpdateUserTest {
 
-    private ValidatableResponse response;
     private String token;
 
     private final String json;
@@ -43,7 +42,7 @@ public class UpdateUserTest {
 
     @Before
     public void registerAndGetToken() throws InterruptedException {
-        response = userClient.register(user);
+        ValidatableResponse response = userClient.register(user);
         token = extract.accessToken(response);
     }
 

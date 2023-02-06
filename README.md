@@ -1,6 +1,6 @@
 # Stellar_API_Tests
 
-Java 11 + Selenium tests for web app https://stellarburgers.nomoreparties.site.
+Java 11 tests for web app https://stellarburgers.nomoreparties.site.
 
 The main goal of the project is checking registration and authorization. Also added some tests for navigation through the app.
 
