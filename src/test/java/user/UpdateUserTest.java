@@ -1,6 +1,6 @@
 package user;
 
-import client.ExtractResponse;
+import client.Extract;
 
 import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
@@ -24,7 +24,7 @@ public class UpdateUserTest {
 
     private final User user = User.uniqueUser();
     private final UserClient userClient = new UserClient();
-    private final ExtractResponse extractResponse = new ExtractResponse();
+    private final Extract extract = new Extract();
 
     private static final Faker faker = new Faker();
 
@@ -44,7 +44,7 @@ public class UpdateUserTest {
     @Before
     public void registerAndGetToken() throws InterruptedException {
         response = userClient.register(user);
-        token = extractResponse.valueByKey(response, "accessToken");
+        token = extract.accessToken(response);
     }
 
     @Test
@@ -53,8 +53,8 @@ public class UpdateUserTest {
     public void checkUserUpdate() throws InterruptedException {
 
         ValidatableResponse updateUser = userClient.update(json, token);
-        int responseCode = extractResponse.responseCode(updateUser);
-        Boolean responseMessage = extractResponse.valueByKey(updateUser, "success");
+        int responseCode = extract.responseCode(updateUser);
+        Boolean responseMessage = extract.success(updateUser);
 
         assertEquals(200, responseCode);
         assertEquals(true, responseMessage);
@@ -66,8 +66,8 @@ public class UpdateUserTest {
     public void checkUserUpdateWithoutToken() throws InterruptedException {
 
         ValidatableResponse updateUser = userClient.update(json, "");
-        int responseCode = extractResponse.responseCode(updateUser);
-        Boolean responseMessage = extractResponse.valueByKey(updateUser, "success");
+        int responseCode = extract.responseCode(updateUser);
+        Boolean responseMessage = extract.success(updateUser);
 
         assertEquals(401, responseCode);
         assertEquals(false, responseMessage);

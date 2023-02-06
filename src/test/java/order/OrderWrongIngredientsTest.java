@@ -1,6 +1,6 @@
 package order;
 
-import client.ExtractResponse;
+import client.Extract;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -15,7 +15,7 @@ public class OrderWrongIngredientsTest {
 
     private final Faker faker = new Faker();
     private final OrderClient orderClient = new OrderClient();
-    private final ExtractResponse extractResponse = new ExtractResponse();
+    private final Extract extract = new Extract();
 
     @Test
     @DisplayName("Make order with wrong hash")
@@ -27,7 +27,7 @@ public class OrderWrongIngredientsTest {
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, "");
 
-        int statusCode = extractResponse.responseCode(makeOrder);
+        int statusCode = extract.responseCode(makeOrder);
 
         assertEquals(500, statusCode);
     }

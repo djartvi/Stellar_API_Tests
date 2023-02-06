@@ -1,6 +1,6 @@
 package order;
 
-import client.ExtractResponse;
+import client.Extract;
 import ingredients.IngredientsClient;
 import ingredients.IngredientsResponse;
 import randomizer.Randomizer;
@@ -33,7 +33,7 @@ public class OrderWithTokenTest {
     private final OrderClient orderClient = new OrderClient();
 
     private static final UserClient userClient = new UserClient();
-    private static final ExtractResponse extractResponse = new ExtractResponse();
+    private static final Extract EXTRACT = new Extract();
     private static final IngredientsClient ingredientsClient = new IngredientsClient();
 
     public OrderWithTokenTest(int size, int expectedCode, boolean success) {
@@ -55,10 +55,10 @@ public class OrderWithTokenTest {
     @BeforeClass
     public static void setListOfIngredients() throws InterruptedException {
         response = ingredientsClient.getIngredients();
-        ingredientsResponse = extractResponse.jsonObject(response, IngredientsResponse.class);
+        ingredientsResponse = EXTRACT.jsonObject(response, IngredientsResponse.class);
 
         ValidatableResponse registerUser = userClient.register(User.uniqueUser());
-        token = extractResponse.valueByKey(registerUser, "accessToken");
+        token = EXTRACT.accessToken(registerUser);
     }
 
     @Test
@@ -69,8 +69,8 @@ public class OrderWithTokenTest {
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, token);
 
-        int statusCode = extractResponse.responseCode(makeOrder);
-        Boolean responseMessage = extractResponse.valueByKey(makeOrder, "success");
+        int statusCode = EXTRACT.responseCode(makeOrder);
+        Boolean responseMessage = EXTRACT.success(makeOrder);
 
         assertEquals(expectedCode, statusCode);
         assertEquals(success, responseMessage);

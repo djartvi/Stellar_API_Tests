@@ -1,6 +1,6 @@
 package order;
 
-import client.ExtractResponse;
+import client.Extract;
 import ingredients.IngredientsClient;
 import randomizer.Randomizer;
 import ingredients.IngredientsRequest;
@@ -26,7 +26,7 @@ public class OrderTest {
 
     private final Randomizer randomizer = new Randomizer();
     private final OrderClient orderClient = new OrderClient();
-    private static final ExtractResponse extractResponse = new ExtractResponse();
+    private static final Extract EXTRACT = new Extract();
 
     private static final IngredientsClient ingredientsClient = new IngredientsClient();
 
@@ -49,7 +49,7 @@ public class OrderTest {
     @BeforeClass
     public static void setListOfIngredients() throws InterruptedException {
         ValidatableResponse getIngredients = ingredientsClient.getIngredients();
-        ingredientsResponse = extractResponse.jsonObject(getIngredients, IngredientsResponse.class);
+        ingredientsResponse = EXTRACT.jsonObject(getIngredients, IngredientsResponse.class);
     }
 
     @Test
@@ -60,8 +60,8 @@ public class OrderTest {
 
         ValidatableResponse makeOrder = orderClient.makeOrder(ingredientsRequest, "");
 
-        int statusCode = extractResponse.responseCode(makeOrder);
-        Boolean responseMessage = extractResponse.valueByKey(makeOrder, "success");
+        int statusCode = EXTRACT.responseCode(makeOrder);
+        Boolean responseMessage = EXTRACT.success(makeOrder);
 
         assertEquals(expectedCode, statusCode);
         assertEquals(success, responseMessage);

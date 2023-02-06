@@ -1,6 +1,6 @@
 package user;
 
-import client.ExtractResponse;
+import client.Extract;
 
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -16,7 +16,7 @@ public class RegisterUserTest {
 
     private final User user = User.uniqueUser();
     private final UserClient userClient = new UserClient();
-    private final ExtractResponse extractResponse = new ExtractResponse();
+    private final Extract extract = new Extract();
 
     @Before
     public void registerUser() throws InterruptedException {
@@ -27,8 +27,8 @@ public class RegisterUserTest {
     @DisplayName("Check registration of unique user")
     public void checkRegistration() {
 
-        int responseCode = extractResponse.responseCode(response);
-        Boolean responseMessage = extractResponse.valueByKey(response, "success");
+        int responseCode = extract.responseCode(response);
+        Boolean responseMessage = extract.success(response);
 
         assertEquals(200, responseCode);
         assertEquals(true, responseMessage);
@@ -40,8 +40,8 @@ public class RegisterUserTest {
 
         ValidatableResponse registerExistingUser = userClient.register(user);
 
-        int responseCode = extractResponse.responseCode(registerExistingUser);
-        String responseMessage = extractResponse.valueByKey(registerExistingUser, "message");
+        int responseCode = extract.responseCode(registerExistingUser);
+        String responseMessage = extract.message(registerExistingUser);
 
         assertEquals(403, responseCode);
         assertEquals("User already exists", responseMessage);
@@ -49,7 +49,7 @@ public class RegisterUserTest {
 
     @After
     public void deleteUser() throws InterruptedException {
-        String token = extractResponse.valueByKey(response, "accessToken");
+        String token = extract.accessToken(response);
         userClient.delete(token);
     }
 }

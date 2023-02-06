@@ -1,6 +1,6 @@
 package user;
 
-import client.ExtractResponse;
+import client.Extract;
 
 import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
@@ -24,7 +24,7 @@ public class RegisterWithoutAnyFieldTest {
     private int responseCode;
 
     private final UserClient userClient = new UserClient();
-    private final ExtractResponse extractResponse = new ExtractResponse();
+    private final Extract extract = new Extract();
 
     private static final Faker faker = new Faker();
 
@@ -51,8 +51,8 @@ public class RegisterWithoutAnyFieldTest {
         User user = new User(email, password, name);
         response = userClient.register(user);
 
-        responseCode = extractResponse.responseCode(response);
-        String responseMessage = extractResponse.valueByKey(response, "message");
+        responseCode = extract.responseCode(response);
+        String responseMessage = extract.message(response);
 
         assertEquals(403, responseCode);
         assertEquals("Email, password and name are required fields", responseMessage);
@@ -61,7 +61,7 @@ public class RegisterWithoutAnyFieldTest {
     @After
     public void deleteUser() throws InterruptedException {
         if (responseCode == 200) {
-            String token = extractResponse.valueByKey(response, "accessToken");
+            String token = extract.accessToken(response);
             userClient.delete(token);
         }
     }

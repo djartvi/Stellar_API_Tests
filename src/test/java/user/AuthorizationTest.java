@@ -1,6 +1,6 @@
 package user;
 
-import client.ExtractResponse;
+import client.Extract;
 
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -15,7 +15,7 @@ public class AuthorizationTest {
 
     private final User user = User.uniqueUser();
     private final UserClient userClient = new UserClient();
-    private final ExtractResponse extractResponse = new ExtractResponse();
+    private final Extract extract = new Extract();
 
     @Test
     @DisplayName("Check authorization of unique user")
@@ -24,10 +24,10 @@ public class AuthorizationTest {
         response = userClient.register(user);
 
         ValidatableResponse authorization = userClient.authorization(user);
-        responseCode = extractResponse.responseCode(authorization);
-        Boolean responseMessage = extractResponse.valueByKey(response, "success");
+        responseCode = extract.responseCode(authorization);
+        Boolean responseMessage = extract.success(response);
 
-        String token = extractResponse.valueByKey(response, "accessToken");
+        String token = extract.accessToken(response);
         userClient.delete(token);
 
         assertEquals(200, responseCode);
@@ -39,8 +39,8 @@ public class AuthorizationTest {
     public void checkAuthorizationNonexistentUser() throws InterruptedException {
 
         ValidatableResponse authorization = userClient.authorization(user);
-        responseCode = extractResponse.responseCode(authorization);
-        String responseMessage = extractResponse.valueByKey(authorization, "message");
+        responseCode = extract.responseCode(authorization);
+        String responseMessage = extract.message(authorization);
 
         assertEquals(401, responseCode);
         assertEquals("email or password are incorrect", responseMessage);
